@@ -19,4 +19,4 @@ jobs:
       - name: Paket install
         run: dotnet paket install
       - name: Test
-        run: dotnet fsi build.fsx -t TestsRun
+        run: dotnet fsi build.fsx -t TestsDotnetRun
