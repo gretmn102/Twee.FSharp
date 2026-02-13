@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <!-- NETSDK1138 — 'net6.0' is out of support -->
+    <!-- NU1903 — high severity vulnerability -->
+    <!-- NU1904 — critical severity vulnerability -->
+    <NoWarn>NETSDK1138,NU1903,NU1904</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Twee.FSharp.Tests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\Core.fsproj" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

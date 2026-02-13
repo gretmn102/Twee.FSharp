@@ -1,11 +1,7 @@
-#!/usr/bin/env -S dotnet fsi
-#r "nuget: Expecto, 10.2.3"
-#load "TweeApi.fsx"
+module Twee.FSharp.Tests
 open FsharpMyExtension.Serialization.Deserializers
 open FsharpMyExtension.Serialization.Serializers
 open Expecto
-
-open TweeApi
 
 [<Tests>]
 let ``PassageName.Parser.parser`` =
@@ -77,13 +73,3 @@ let ``PassageBody.Printer.shows`` =
                 ])
                 ""
     ]
-
-runTestsWithCLIArgs
-    []
-    fsi.CommandLineArgs[1..]
-    (testList "all" [
-        ``PassageName.Parser.parser``
-        ``PassageName.Printer.shows``
-        ``PassageBody.Parser.parser``
-        ``PassageBody.Printer.shows``
-    ])

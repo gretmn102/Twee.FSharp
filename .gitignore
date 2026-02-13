@@ -1,0 +1,6 @@
+bin
+obj
+/paket-files
+/.fake
+/deploy
+/src/Directory.Build.props

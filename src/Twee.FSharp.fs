@@ -1,5 +1,4 @@
-#r "nuget: FParsec, 1.1.1"
-#r "nuget: FSharpMyExt, 2.0.0-prerelease.9"
+namespace Twee.FSharp
 
 module CommonParser =
     open FParsec
