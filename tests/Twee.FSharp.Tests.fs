@@ -11,7 +11,7 @@ let ``PassageName.Parser.parser`` =
             Expect.equal
                 (FParsec.runResult parser (
                     String.concat "\n" [
-                        ":: Passage"
+                        "Passage"
                     ]
                 ))
                 (Ok "Passage")
@@ -24,8 +24,30 @@ let ``PassageName.Printer.shows`` =
     testList "PassageName.Printer.shows" [
         testCase "1" <| fun () ->
             Expect.equal
-                (ShowList.show <| shows "Passage")
-                ":: Passage"
+                (shows "Passage" |> ShowList.show)
+                "Passage"
+                ""
+    ]
+
+[<Tests>]
+let ``PassageTags.Parser.parser`` =
+    let parser = PassageTags.Parser.parser
+    testList "PassageTags.Parser.parser" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                ("[tag1   tag2]" |> FParsec.runResult parser)
+                (Ok (Set.ofList ["tag1"; "tag2"]))
+                ""
+    ]
+
+[<Tests>]
+let ``PassageTags.Printer.shows`` =
+    let shows = PassageTags.Printer.shows
+    testList "PassageTags.Printer.shows" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                (["tag1"; "tag2"] |> Set.ofList |> shows |> ShowList.show)
+                "[tag1 tag2]"
                 ""
     ]
 
