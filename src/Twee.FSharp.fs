@@ -115,10 +115,35 @@ module PassageTags =
                 |> joinsEmpty showSpace
             )
 
+type PassageMetadata = string
+
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module PassageMetadata =
+    module Parser =
+        open FParsec
+
+        open CommonParser
+
+        let parser: PassageMetadata Parser =
+            between
+                (pchar '{' >>. spaces)
+                (pchar '}')
+                (manySatisfy ((<>) '}'))
+
+    module Printer =
+        open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        let shows (metadata: PassageMetadata) : ShowS =
+            between (showChar '{') (showChar '}') (
+                showString metadata
+            )
+
 type PassageHeader =
     {
         Name: PassageName
         Tags: PassageTags option
+        Metadata: PassageMetadata option
     }
 
 [<RequireQualifiedAccess>]
@@ -131,13 +156,15 @@ module PassageHeader =
 
         let parser: PassageHeader Parser =
             skipString "::" >>. spaces
-            >>. pipe2
+            >>. pipe3
                 PassageName.Parser.parser
                 (opt PassageTags.Parser.parser)
-                (fun name tags ->
+                (opt PassageMetadata.Parser.parser)
+                (fun name tags metadata ->
                     {
                         Name = name
                         Tags = tags
+                        Metadata = metadata
                     }
                 )
 
@@ -150,6 +177,9 @@ module PassageHeader =
                 |> Option.map (fun tags ->
                     PassageTags.Printer.shows tags << showSpace
                 )
+                |> Option.defaultValue empty)
+            << (tags.Metadata
+                |> Option.map PassageMetadata.Printer.shows
                 |> Option.defaultValue empty)
 
 type Passage = {

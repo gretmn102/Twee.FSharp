@@ -52,6 +52,28 @@ let ``PassageTags.Printer.shows`` =
     ]
 
 [<Tests>]
+let ``PassageMetadata.Parser.parser`` =
+    let parser = PassageMetadata.Parser.parser
+    testList "PassageMetadata.Parser.parser" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                ("{\"position\":\"800,5700\",\"size\":\"100,100\"}" |> FParsec.runResult parser)
+                ("\"position\":\"800,5700\",\"size\":\"100,100\"" |> Ok)
+                ""
+    ]
+
+[<Tests>]
+let ``PassageMetadata.Printer.shows`` =
+    let shows = PassageMetadata.Printer.shows
+    testList "PassageMetadata.Printer.shows" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                ("\"position\":\"800,5700\",\"size\":\"100,100\"" |> shows |> ShowList.show)
+                "{\"position\":\"800,5700\",\"size\":\"100,100\"}"
+                ""
+    ]
+
+[<Tests>]
 let ``PassageBody.Parser.parser`` =
     let parser = PassageBody.Parser.parser
     testList "PassageBody.Parser.parser" [
