@@ -29,14 +29,13 @@ module PassageName =
         open CommonParser
 
         let parser: string Parser =
-            skipString "::" >>. spaces
-            >>. manySatisfy ((<>) '\n')
+            manySatisfy ((<>) '\n')
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
         let shows (passageName: PassageName) =
-            showString "::" << showSpace << showString passageName
+            showString passageName
 
 type PassageBody = string list
 
@@ -67,8 +66,94 @@ module PassageBody =
             |> List.map showString
             |> joinsEmpty newline
 
+type PassageTag = string
+
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module PassageTag =
+    module Parser =
+        open FParsec
+
+        open CommonParser
+
+        let parser: PassageTag Parser =
+            many1Satisfy (isNoneOf " ]") // todo: add escape \]
+            |>> fun x -> x.TrimEnd() // optimize: remove trailing whitespaces by parser
+
+    module Printer =
+        open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        let shows (tag: PassageTag) : ShowS =
+            tag.Trim()
+            |> showString // todo: add escape \]
+
+type PassageTags = PassageTag Set
+
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module PassageTags =
+    module Parser =
+        open FParsec
+
+        open CommonParser
+
+        let parser: PassageTags Parser =
+            between
+                (pchar '[' >>. spaces)
+                (pchar ']')
+                (many (PassageTag.Parser.parser .>> spaces))
+            |>> Set.ofList
+
+    module Printer =
+        open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        let shows (tags: PassageTags) : ShowS =
+            between (showChar '[') (showChar ']') (
+                tags
+                |> Seq.map PassageTag.Printer.shows
+                |> List.ofSeq
+                |> joinsEmpty showSpace
+            )
+
+type PassageHeader =
+    {
+        Name: PassageName
+        Tags: PassageTags option
+    }
+
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module PassageHeader =
+    module Parser =
+        open FParsec
+
+        open CommonParser
+
+        let parser: PassageHeader Parser =
+            skipString "::" >>. spaces
+            >>. pipe2
+                PassageName.Parser.parser
+                (opt PassageTags.Parser.parser)
+                (fun name tags ->
+                    {
+                        Name = name
+                        Tags = tags
+                    }
+                )
+
+    module Printer =
+        open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        let shows (tags: PassageHeader) : ShowS =
+            showString "::" << showSpace
+            << (tags.Tags
+                |> Option.map (fun tags ->
+                    PassageTags.Printer.shows tags << showSpace
+                )
+                |> Option.defaultValue empty)
+
 type Passage = {
-    Name: PassageName
+    Header: PassageHeader
     Body: PassageBody
 }
 
@@ -82,18 +167,18 @@ module Passage =
 
         let parser: Passage Parser =
             pipe2
-                PassageName.Parser.parser
+                PassageHeader.Parser.parser
                 PassageBody.Parser.parser
-                (fun name body ->
+                (fun header body ->
                     {
-                        Name = name
+                        Header = header
                         Body = body
                     }
                 )
 
     module Printer =
         let shows newlineType (passage: Passage) =
-            PassageName.Printer.shows passage.Name
+            PassageHeader.Printer.shows passage.Header
             << PassageBody.Printer.shows newlineType passage.Body
 
 type Document = Passage list
@@ -141,6 +226,6 @@ module Document =
     let updatePassage passageName update (twee: Document) =
         twee
         |> List.map (fun passage -> // todo: убедиться, что такой пассаж вообще существует
-            if passage.Name <> passageName then passage
+            if passage.Header <> passageName then passage
             else update passage
         )
