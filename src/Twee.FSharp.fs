@@ -30,6 +30,7 @@ module PassageName =
 
         let parser: string Parser =
             manySatisfy ((<>) '\n')
+            |>> fun x -> x.TrimEnd() // optimize: remove trailing whitespaces by parser
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
