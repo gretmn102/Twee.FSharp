@@ -257,9 +257,16 @@ module Document =
         Printer.shows newlineType document
         |> ShowList.show
 
-    let updatePassage passageName update (twee: Document) =
+    let updatePassage passageHeader update (twee: Document) =
         twee
         |> List.map (fun passage -> // todo: убедиться, что такой пассаж вообще существует
-            if passage.Header <> passageName then passage
+            if passage.Header <> passageHeader then passage
+            else update passage
+        )
+
+    let updatePassageByName passageName update (twee: Document) =
+        twee
+        |> List.map (fun passage -> // todo: убедиться, что такой пассаж вообще существует
+            if passage.Header.Name <> passageName then passage
             else update passage
         )
