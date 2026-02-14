@@ -265,6 +265,45 @@ let ``Passage.Printer.shows`` =
     ]
 
 [<Tests>]
+let ``Document.Parser.parser`` =
+    let parser = Document.Parser.parser
+    testList "Document.Parser.parser" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                (FParsec.runResult parser (
+                    String.concat (NewlineType.toString NewlineType.Lf) [
+                        ":: Passage1"
+                        "Body1"
+                        ""
+                        ""
+                        ":: Passage2"
+                        "Body2"
+                        ""
+                        ""
+                    ]
+                ))
+                (Ok [
+                    {
+                        Header = {
+                            Name = "Passage1"
+                            Tags = None
+                            Metadata = None
+                        }
+                        Body = ["Body1"]
+                    }
+                    {
+                        Header = {
+                            Name = "Passage2"
+                            Tags = None
+                            Metadata = None
+                        }
+                        Body = ["Body2"]
+                    }
+                ])
+                ""
+    ]
+
+[<Tests>]
 let ``Document.Printer.shows`` =
     let shows = Document.Printer.shows
     testList "Document.Printer.shows" [
