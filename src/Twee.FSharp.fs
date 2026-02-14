@@ -175,14 +175,15 @@ module PassageHeader =
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
-        let shows (tags: PassageHeader) : ShowS =
+        let shows (header: PassageHeader) : ShowS =
             showString "::" << showSpace
-            << (tags.Tags
+            << showString header.Name
+            << (header.Tags
                 |> Option.map (fun tags ->
                     PassageTags.Printer.shows tags << showSpace
                 )
                 |> Option.defaultValue empty)
-            << (tags.Metadata
+            << (header.Metadata
                 |> Option.map PassageMetadata.Printer.shows
                 |> Option.defaultValue empty)
 

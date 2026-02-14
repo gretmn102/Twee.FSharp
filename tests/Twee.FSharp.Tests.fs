@@ -146,6 +146,7 @@ let ``PassageHeader.Printer.shows`` =
                 } |> shows |> ShowList.show)
                 (String.concat " " [
                     "::"
+                    "PassageName"
                     "[tag1 tag2]"
                     "{\"position\":\"800,5700\",\"size\":\"100,100\"}"
                 ])
