@@ -180,7 +180,7 @@ module PassageHeader =
             << showString header.Name
             << (header.Tags
                 |> Option.map (fun tags ->
-                    PassageTags.Printer.shows tags << showSpace
+                    showSpace << PassageTags.Printer.shows tags << showSpace
                 )
                 |> Option.defaultValue empty)
             << (header.Metadata
