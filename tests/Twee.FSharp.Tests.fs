@@ -104,6 +104,19 @@ let ``PassageMetadata.Printer.shows`` =
 let ``PassageHeader.Parser.parser`` =
     let parser = PassageHeader.Parser.parser
     testList "PassageHeader.Parser.parser" [
+        testCase "name, tag" <| fun () ->
+            Expect.equal
+                (String.concat " " [
+                    "::"
+                    "StoryStylesheet"
+                    "[stylesheet]"
+                ] |> FParsec.runResult parser)
+                (Ok {
+                    Name = "StoryStylesheet"
+                    Tags = Some (Set.ofList ["stylesheet"])
+                    Metadata = None
+                })
+                ""
         testCase "1" <| fun () ->
             Expect.equal
                 (String.concat " " [
