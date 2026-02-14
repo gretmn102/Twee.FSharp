@@ -1,3 +1,8 @@
+## 0.2.1
+
+* fix(PassageHeader.Printer): extra trailing whitespace after tags (#12)
+* fix(PassageHeader.Printer): passage name no printing (#11)
+
 ## 0.2.0
 
 * feat(Document.updatePassage)!: convert `passage` argument to `predicate` (#10)
