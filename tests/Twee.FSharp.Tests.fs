@@ -263,3 +263,38 @@ let ``Passage.Printer.shows`` =
                 ])
                 ""
     ]
+
+[<Tests>]
+let ``Document.Printer.shows`` =
+    let shows = Document.Printer.shows
+    testList "Document.Printer.shows" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                (ShowList.show <| shows NewlineType.Lf [
+                    {
+                        Header = {
+                            Name = "Passage1"
+                            Tags = None
+                            Metadata = None
+                        }
+                        Body = ["Body1"]
+                    }
+                    {
+                        Header = {
+                            Name = "Passage2"
+                            Tags = None
+                            Metadata = None
+                        }
+                        Body = ["Body2"]
+                    }
+                ])
+                (String.concat (NewlineType.toString NewlineType.Lf) [
+                    ":: Passage1"
+                    "Body1"
+                    ""
+                    ""
+                    ":: Passage2"
+                    "Body2"
+                ])
+                ""
+    ]
