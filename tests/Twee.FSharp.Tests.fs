@@ -170,7 +170,17 @@ let ``PassageHeader.Printer.shows`` =
 let ``PassageBody.Parser.parser`` =
     let parser = PassageBody.Parser.parser
     testList "PassageBody.Parser.parser" [
-        testCase "1" <| fun () ->
+        testCase "empty blanks only" <| fun () ->
+            Expect.equal
+                (FParsec.runResult parser (
+                    String.concat "\n" [
+                        ""
+                        ""
+                    ]
+                ))
+                (Ok [])
+                ""
+        testCase "with next passage" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
                     String.concat "\n" [
@@ -185,7 +195,6 @@ let ``PassageBody.Parser.parser`` =
                     "lorem"
                     ""
                     "ipsum dei"
-                    ""
                 ])
                 ""
     ]
