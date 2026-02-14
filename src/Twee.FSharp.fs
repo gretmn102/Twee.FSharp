@@ -6,7 +6,7 @@ module CommonParser =
     type 'a Parser = Parser<'a, unit>
 
     let whitespaces =
-        skipSatisfy (fun c -> c = ' ' || c = '\t' )
+        skipManySatisfy (fun c -> c = ' ' || c = '\t' )
 
 [<RequireQualifiedAccess>]
 type NewlineType =
