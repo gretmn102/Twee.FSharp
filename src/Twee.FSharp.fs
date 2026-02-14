@@ -55,10 +55,14 @@ module PassageBody =
             let pline: _ Parser =
                 notFollowedByString "::"
                 >>? many1Satisfy ((<>) '\n')
+            let pemptyBlanks1: _ Parser =
+                many1 (newlineReturn "")
+                .>>? notFollowedBy (skipString "::" <|> eof)
             many (choice [
-                pline .>> skipNewline
-                newlineReturn ""
+                pline .>> skipNewline |>> List.singleton // todo: or eof
+                pemptyBlanks1
             ])
+            |>> List.concat
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
