@@ -29,7 +29,7 @@ module PassageName =
         open CommonParser
 
         let parser: string Parser =
-            manySatisfy ((<>) '\n')
+            manySatisfy (isNoneOf "[{\n")
             |>> fun x -> x.TrimEnd() // optimize: remove trailing whitespaces by parser
 
     module Printer =

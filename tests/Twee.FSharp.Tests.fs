@@ -25,6 +25,24 @@ let ``PassageName.Parser.parser`` =
                 ))
                 (Ok "Passage")
                 ""
+        testCase "with [" <| fun () ->
+            Expect.equal
+                (FParsec.runResult parser (
+                    String.concat "\n" [
+                        "Passage [tag1]"
+                    ]
+                ))
+                (Ok "Passage")
+                ""
+        testCase "with {" <| fun () ->
+            Expect.equal
+                (FParsec.runResult parser (
+                    String.concat "\n" [
+                        """Passage {"key":"value"}"""
+                    ]
+                ))
+                (Ok "Passage")
+                ""
     ]
 
 [<Tests>]
