@@ -137,7 +137,20 @@ let ``PassageHeader.Parser.parser`` =
 let ``PassageHeader.Printer.shows`` =
     let shows = PassageHeader.Printer.shows
     testList "PassageHeader.Printer.shows" [
-        testCase "1" <| fun () ->
+        testCase "only tags" <| fun () ->
+            Expect.equal
+                ({
+                    Name = "PassageName"
+                    Tags = Some (Set.ofList ["tag1"; "tag2"])
+                    Metadata = None
+                } |> shows |> ShowList.show)
+                (String.concat " " [
+                    "::"
+                    "PassageName"
+                    "[tag1 tag2]"
+                ])
+                ""
+        testCase "tags, metadata" <| fun () ->
             Expect.equal
                 ({
                     Name = "PassageName"

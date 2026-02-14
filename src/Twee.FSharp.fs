@@ -180,11 +180,13 @@ module PassageHeader =
             << showString header.Name
             << (header.Tags
                 |> Option.map (fun tags ->
-                    showSpace << PassageTags.Printer.shows tags << showSpace
+                    showSpace << PassageTags.Printer.shows tags
                 )
                 |> Option.defaultValue empty)
             << (header.Metadata
-                |> Option.map PassageMetadata.Printer.shows
+                |> Option.map (fun metadata ->
+                    showSpace << PassageMetadata.Printer.shows metadata
+                )
                 |> Option.defaultValue empty)
 
 type Passage = {
