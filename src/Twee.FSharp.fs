@@ -204,7 +204,7 @@ module Passage =
 
         let parser: Passage Parser =
             pipe2
-                PassageHeader.Parser.parser
+                (PassageHeader.Parser.parser .>> optional skipNewline)
                 PassageBody.Parser.parser
                 (fun header body ->
                     {
@@ -214,8 +214,11 @@ module Passage =
                 )
 
     module Printer =
+        open FsharpMyExtension.Serialization.Serializers.ShowList
+
         let shows newlineType (passage: Passage) =
             PassageHeader.Printer.shows passage.Header
+            << (showString <| NewlineType.toString newlineType)
             << PassageBody.Printer.shows newlineType passage.Body
 
 type Document = Passage list
