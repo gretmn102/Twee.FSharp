@@ -16,11 +16,20 @@ let ``PassageName.Parser.parser`` =
                 ))
                 (Ok "Passage")
                 ""
-        testCase "with trailing spaces" <| fun () ->
+        testCase "with [" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
                     String.concat "\n" [
-                        "Passage   "
+                        "Passage [tag1]"
+                    ]
+                ))
+                (Ok "Passage")
+                ""
+        testCase "with {" <| fun () ->
+            Expect.equal
+                (FParsec.runResult parser (
+                    String.concat "\n" [
+                        """Passage {"key":"value"}"""
                     ]
                 ))
                 (Ok "Passage")
