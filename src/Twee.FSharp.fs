@@ -5,6 +5,9 @@ module CommonParser =
 
     type 'a Parser = Parser<'a, unit>
 
+    let whitespaces =
+        skipSatisfy (fun c -> c = ' ' || c = '\t' )
+
 [<RequireQualifiedAccess>]
 type NewlineType =
     | Lf
@@ -159,7 +162,7 @@ module PassageHeader =
             skipString "::" >>. spaces
             >>. pipe3
                 PassageName.Parser.parser
-                (opt PassageTags.Parser.parser)
+                (opt (PassageTags.Parser.parser .>> whitespaces))
                 (opt PassageMetadata.Parser.parser)
                 (fun name tags metadata ->
                     {
