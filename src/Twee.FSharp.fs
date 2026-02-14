@@ -257,10 +257,10 @@ module Document =
         Printer.shows newlineType document
         |> ShowList.show
 
-    let updatePassage passageHeader update (twee: Document) =
+    let updatePassage predicate update (twee: Document) =
         twee
         |> List.map (fun passage -> // todo: убедиться, что такой пассаж вообще существует
-            if passage.Header <> passageHeader then passage
+            if not (predicate passage) then passage
             else update passage
         )
 
