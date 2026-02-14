@@ -101,6 +101,45 @@ let ``PassageMetadata.Printer.shows`` =
     ]
 
 [<Tests>]
+let ``PassageHeader.Parser.parser`` =
+    let parser = PassageHeader.Parser.parser
+    testList "PassageHeader.Parser.parser" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                (String.concat " " [
+                    "::"
+                    "PassageName"
+                    "[tag1 tag2]"
+                    "{\"position\":\"800,5700\",\"size\":\"100,100\"}"
+                ] |> FParsec.runResult parser)
+                (Ok {
+                    Name = "PassageName"
+                    Tags = Some (Set.ofList ["tag1"; "tag2"])
+                    Metadata = Some "\"position\":\"800,5700\",\"size\":\"100,100\""
+                })
+                ""
+    ]
+
+[<Tests>]
+let ``PassageHeader.Printer.shows`` =
+    let shows = PassageHeader.Printer.shows
+    testList "PassageHeader.Printer.shows" [
+        testCase "1" <| fun () ->
+            Expect.equal
+                ({
+                    Name = "PassageName"
+                    Tags = Some (Set.ofList ["tag1"; "tag2"])
+                    Metadata = Some "\"position\":\"800,5700\",\"size\":\"100,100\""
+                } |> shows |> ShowList.show)
+                (String.concat " " [
+                    "::"
+                    "[tag1 tag2]"
+                    "{\"position\":\"800,5700\",\"size\":\"100,100\"}"
+                ])
+                ""
+    ]
+
+[<Tests>]
 let ``PassageBody.Parser.parser`` =
     let parser = PassageBody.Parser.parser
     testList "PassageBody.Parser.parser" [
