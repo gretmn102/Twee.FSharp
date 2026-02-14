@@ -259,9 +259,12 @@ module Document =
         let shows newlineType (document: Document) =
             let newline =
                 showString <| NewlineType.toString newlineType
+            let newlines =
+                newline
+                << newline << newline // add two empty blanks
             document
             |> List.map (Passage.Printer.shows newlineType)
-            |> joinsEmpty newline
+            |> joinsEmpty newlines
 
     let toString newlineType (document: Document) =
         Printer.shows newlineType document
