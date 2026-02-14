@@ -108,6 +108,7 @@ let ``PassageHeader.Parser.parser`` =
             Expect.equal
                 (String.concat " " [
                     "::"
+                    "PassageName"
                     "[tag1 tag2]"
                     "{\"position\":\"800,5700\",\"size\":\"100,100\"}"
                 ] |> FParsec.runResult parser)
