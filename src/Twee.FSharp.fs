@@ -283,3 +283,15 @@ module Document =
             if passage.Header.Name <> passageName then passage
             else update passage
         )
+
+    let updatePassages update (twee: Document) =
+        twee
+        |> List.mapFold
+            (fun changedPassagesCount passage ->
+                match update passage with
+                | None ->
+                    passage, changedPassagesCount
+                | Some updatedPassage ->
+                    updatedPassage, changedPassagesCount + 1
+            )
+            0
