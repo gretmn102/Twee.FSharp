@@ -1,3 +1,8 @@
+## 0.3.0
+
+* feat(Document)!: remove `updatePassage` and `updatePassageByName` functions (#19)
+* feat(Document): add `updatePassages` function (#18)
+
 ## 0.2.2
 
 * feat(Document.Printer): add empty two blanks between passages (#15)
