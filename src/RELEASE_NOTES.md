@@ -1,3 +1,7 @@
+## 0.4.0
+
+* feat(fsproj): set `AssemblyName` to `Twee.FSharp`
+
 ## 0.3.0
 
 * feat(Document)!: remove `updatePassage` and `updatePassageByName` functions (#19)
