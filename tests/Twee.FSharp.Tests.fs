@@ -222,11 +222,14 @@ let ``PassageBody.Printer.shows`` =
 
 [<Tests>]
 let ``Passage.Parser.parser`` =
-    let parser = Passage.Parser.parser
+    let parse =
+        FParsec.runResult (
+            Passage.Parser.parser PassageBody.Parser.parser
+        )
     testList "Passage.Parser.parser" [
         testCase "1" <| fun () ->
             Expect.equal
-                (FParsec.runResult parser (
+                (parse (
                     String.concat "\n" [
                         ":: Passage"
                         "Body\n"
@@ -245,11 +248,13 @@ let ``Passage.Parser.parser`` =
 
 [<Tests>]
 let ``Passage.Printer.shows`` =
-    let shows = Passage.Printer.shows
+    let show newlineType =
+        Passage.Printer.shows PassageBody.Printer.shows newlineType
+        >> ShowList.show
     testList "Passage.Printer.shows" [
         testCase "1" <| fun () ->
             Expect.equal
-                (ShowList.show <| shows NewlineType.Lf {
+                (show NewlineType.Lf {
                     Header = {
                         Name = "Passage"
                         Tags = None
@@ -266,11 +271,14 @@ let ``Passage.Printer.shows`` =
 
 [<Tests>]
 let ``Document.Parser.parser`` =
-    let parser = Document.Parser.parser
+    let parse =
+        FParsec.runResult (
+            Document.Parser.parser PassageBody.Parser.parser
+        )
     testList "Document.Parser.parser" [
         testCase "1" <| fun () ->
             Expect.equal
-                (FParsec.runResult parser (
+                (parse (
                     String.concat (NewlineType.toString NewlineType.Lf) [
                         ":: Passage1"
                         "Body1"
@@ -305,11 +313,13 @@ let ``Document.Parser.parser`` =
 
 [<Tests>]
 let ``Document.Printer.shows`` =
-    let shows = Document.Printer.shows
+    let show newlineType =
+        Document.Printer.shows PassageBody.Printer.shows newlineType
+        >> ShowList.show
     testList "Document.Printer.shows" [
         testCase "1" <| fun () ->
             Expect.equal
-                (ShowList.show <| shows NewlineType.Lf [
+                (show NewlineType.Lf [
                     {
                         Header = {
                             Name = "Passage1"
