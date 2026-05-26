@@ -21,8 +21,6 @@ module NewlineType =
         | NewlineType.Lf -> "\n"
         | NewlineType.CrLf -> "\r\n"
 
-type PassageName = string
-
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageName =
@@ -40,8 +38,6 @@ module PassageName =
 
         let shows (passageName: PassageName) =
             showString passageName
-
-type PassageBody = string list
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -74,8 +70,6 @@ module PassageBody =
             |> List.map showString
             |> joinsEmpty newline
 
-type PassageTag = string
-
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageTag =
@@ -94,8 +88,6 @@ module PassageTag =
         let shows (tag: PassageTag) : ShowS =
             tag.Trim()
             |> showString // todo: add escape \]
-
-type PassageTags = PassageTag Set
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -123,8 +115,6 @@ module PassageTags =
                 |> joinsEmpty showSpace
             )
 
-type PassageMetadata = string
-
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageMetadata =
@@ -146,13 +136,6 @@ module PassageMetadata =
             between (showChar '{') (showChar '}') (
                 showString metadata
             )
-
-type PassageHeader =
-    {
-        Name: PassageName
-        Tags: PassageTags option
-        Metadata: PassageMetadata option
-    }
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -193,11 +176,6 @@ module PassageHeader =
                 )
                 |> Option.defaultValue empty)
 
-type Passage<'Body> = {
-    Header: PassageHeader
-    Body: 'Body
-}
-
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Passage =
@@ -224,8 +202,6 @@ module Passage =
             PassageHeader.Printer.shows passage.Header
             << (showString <| NewlineType.toString newlineType)
             << showBody newlineType passage.Body
-
-type Document<'PassageBody> = Passage<'PassageBody> list
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

@@ -11,6 +11,7 @@
     <NoWarn>NETSDK1138,NU1903,NU1904</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Ast.fs" />
      <Compile Include="Twee.FSharp.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
