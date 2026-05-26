@@ -1,4 +1,4 @@
-namespace Twee.FSharp
+namespace Twine.Twee.FSharp
 
 module CommonParser =
     open FParsec

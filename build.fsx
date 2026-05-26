@@ -124,9 +124,9 @@ module CoreProject =
             "</ItemGroup>"
             "<PropertyGroup>"
             "    <EmbedUntrackedSources>true</EmbedUntrackedSources>"
-            "    <PackageProjectUrl>https://github.com/gretmn102/Twee.FSharp/tree/main/src</PackageProjectUrl>"
+            "    <PackageProjectUrl>https://github.com/gretmn102/Twine.Twee.FSharp/tree/main/src</PackageProjectUrl>"
             "    <PackageLicenseExpression>MIT</PackageLicenseExpression>"
-            "    <RepositoryUrl>https://github.com/gretmn102/Twee.FSharp.git</RepositoryUrl>"
+            "    <RepositoryUrl>https://github.com/gretmn102/Twine.Twee.FSharp.git</RepositoryUrl>"
             sprintf "    <PackageReleaseNotes>%s</PackageReleaseNotes>"
                 (String.concat "\n" release.Notes |> XmlText.escape)
             "    <PackageTags>fsharp;twine;twee</PackageTags>"

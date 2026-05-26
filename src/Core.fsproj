@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageID>Twee.FSharp</PackageID>
-    <AssemblyName>Twee.FSharp</AssemblyName>
+    <PackageID>Twine.Twee.FSharp</PackageID>
+    <AssemblyName>Twine.Twee.FSharp</AssemblyName>
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <!-- NETSDK1138 — 'net6.0' is out of support -->
