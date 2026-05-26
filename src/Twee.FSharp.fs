@@ -193,9 +193,9 @@ module PassageHeader =
                 )
                 |> Option.defaultValue empty)
 
-type Passage = {
+type Passage<'Body> = {
     Header: PassageHeader
-    Body: PassageBody
+    Body: 'Body
 }
 
 [<RequireQualifiedAccess>]
@@ -206,10 +206,10 @@ module Passage =
 
         open CommonParser
 
-        let parser: Passage Parser =
+        let parser (pbody: Parser<'Body>) : Passage<'Body> Parser =
             pipe2
                 (PassageHeader.Parser.parser .>> optional skipNewline)
-                PassageBody.Parser.parser
+                pbody
                 (fun header body ->
                     {
                         Header = header
@@ -220,12 +220,12 @@ module Passage =
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
-        let shows newlineType (passage: Passage) =
+        let shows showBody newlineType (passage: Passage<'PassageBody>) =
             PassageHeader.Printer.shows passage.Header
             << (showString <| NewlineType.toString newlineType)
-            << PassageBody.Printer.shows newlineType passage.Body
+            << showBody newlineType passage.Body
 
-type Document = Passage list
+type Document<'PassageBody> = Passage<'PassageBody> list
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -238,39 +238,45 @@ module Document =
 
         open CommonParser
 
-        let parser: Document Parser =
-            many (Passage.Parser.parser .>> spaces)
+        let parser (ppassageBody: Parser<'PassageBody>) : Document<'PassageBody> Parser =
+            many (Passage.Parser.parser ppassageBody .>> spaces)
 
-    let parse (rawTwee: string) =
-        FParsec.runResult Parser.parser rawTwee
+    let parse ppassageBody (rawTwee: string) =
+        FParsec.runResult (Parser.parser ppassageBody) rawTwee
 
-    let parseFile (rawTwee: string) =
+    let rawParse =
+        parse PassageBody.Parser.parser
+
+    let parseFile ppassageBody (rawTwee: string) =
         FParsec.CharParsers.runParserOnFile
-            Parser.parser
+            (Parser.parser ppassageBody)
             ()
             rawTwee
             System.Text.Encoding.UTF8
         |> FParsec.ParserResult.toResult
         |> Result.map (fun (result, _, _) -> result)
 
+    let rawParseFile =
+        parseFile PassageBody.Parser.parser
+
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
-        let shows newlineType (document: Document) =
+        let shows showPassageBody newlineType (document: Document<'PassageBody>) =
             let newline =
                 showString <| NewlineType.toString newlineType
             let newlines =
                 newline
                 << newline << newline // add two empty blanks
             document
-            |> List.map (Passage.Printer.shows newlineType)
+            |> List.map (Passage.Printer.shows showPassageBody newlineType)
             |> joinsEmpty newlines
 
-    let toString newlineType (document: Document) =
-        Printer.shows newlineType document
+    let toString showPassageBody newlineType (document: Document<'PassageBody>) =
+        Printer.shows showPassageBody newlineType document
         |> ShowList.show
 
-    let updatePassages update (twee: Document) =
+    let updatePassages update (twee: Document<'PassageBody>) =
         twee
         |> List.mapFold
             (fun changedPassagesCount passage ->
