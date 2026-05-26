@@ -1,4 +1,4 @@
-﻿module Twee.FSharp.Program
+﻿module Twine.Twee.FSharp.Program
 open Expecto
 
 [<EntryPoint>]

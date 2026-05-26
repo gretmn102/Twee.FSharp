@@ -1,4 +1,4 @@
-module Twee.FSharp.Tests
+module Twine.Twee.FSharp.Tests
 open FsharpMyExtension.Serialization.Deserializers
 open FsharpMyExtension.Serialization.Serializers
 open Expecto
