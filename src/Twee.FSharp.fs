@@ -1,19 +1,6 @@
 namespace Twine.Twee.FSharp
 
 [<RequireQualifiedAccess>]
-type NewlineType =
-    | Lf
-    | CrLf
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module NewlineType =
-    let toString newlineType =
-        match newlineType with
-        | NewlineType.Lf -> "\n"
-        | NewlineType.CrLf -> "\r\n"
-
-[<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageBody =
     module Parser =
@@ -36,6 +23,8 @@ module PassageBody =
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        open Twine.Twee.FSharp.Printer
 
         let shows newlineType (passageBody: PassageBody) =
             let newline =
@@ -173,6 +162,8 @@ module Passage =
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
+        open Twine.Twee.FSharp.Printer
+
         let shows showBody newlineType (passage: Passage<'PassageBody>) =
             PassageHeader.Printer.shows passage.Header
             << (showString <| NewlineType.toString newlineType)
@@ -212,6 +203,8 @@ module Document =
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
+
+        open Twine.Twee.FSharp.Printer
 
         let shows showPassageBody newlineType (document: Document<'PassageBody>) =
             let newline =

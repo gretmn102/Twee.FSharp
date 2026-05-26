@@ -4,6 +4,7 @@ open FsharpMyExtension.Serialization.Serializers
 open Expecto
 
 open Twine.Twee.FSharp.Parser
+open Twine.Twee.FSharp.Printer
 
 [<Tests>]
 let ``Parser.PassageName.parser`` =
