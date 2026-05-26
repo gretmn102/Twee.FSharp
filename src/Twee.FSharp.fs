@@ -1,26 +1,10 @@
 namespace Twine.Twee.FSharp
 
+open Twine.Twee.FSharp.Parser
+
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageBody =
-    module Parser =
-        open FParsec
-
-        open Parser.Common
-
-        let parser: PassageBody Parser =
-            let pline: _ Parser =
-                notFollowedByString "::"
-                >>? many1Satisfy ((<>) '\n')
-            let pemptyBlanks1: _ Parser =
-                many1 (newlineReturn "")
-                .>>? notFollowedBy (skipString "::" <|> eof)
-            many (choice [
-                pline .>> skipNewline |>> List.singleton // todo: or eof
-                pemptyBlanks1
-            ])
-            |>> List.concat
-
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
@@ -187,7 +171,7 @@ module Document =
         FParsec.runResult (Parser.parser ppassageBody) rawTwee
 
     let rawParse =
-        parse PassageBody.Parser.parser
+        parse PassageBody.parser
 
     let parseFile ppassageBody (rawTwee: string) =
         FParsec.CharParsers.runParserOnFile
@@ -199,7 +183,7 @@ module Document =
         |> Result.map (fun (result, _, _) -> result)
 
     let rawParseFile =
-        parseFile PassageBody.Parser.parser
+        parseFile PassageBody.parser
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList

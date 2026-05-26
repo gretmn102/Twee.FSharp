@@ -170,9 +170,9 @@ let ``PassageHeader.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``PassageBody.Parser.parser`` =
-    let parser = PassageBody.Parser.parser
-    testList "PassageBody.Parser.parser" [
+let ``PassageBody.parser`` =
+    let parser = PassageBody.parser
+    testList "PassageBody.parser" [
         testCase "empty blanks only" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
@@ -227,7 +227,7 @@ let ``PassageBody.Printer.shows`` =
 let ``Passage.Parser.parser`` =
     let parse =
         FParsec.runResult (
-            Passage.Parser.parser PassageBody.Parser.parser
+            Passage.Parser.parser PassageBody.parser
         )
     testList "Passage.Parser.parser" [
         testCase "1" <| fun () ->
@@ -276,7 +276,7 @@ let ``Passage.Printer.shows`` =
 let ``Document.Parser.parser`` =
     let parse =
         FParsec.runResult (
-            Document.Parser.parser PassageBody.Parser.parser
+            Document.Parser.parser PassageBody.parser
         )
     testList "Document.Parser.parser" [
         testCase "1" <| fun () ->
