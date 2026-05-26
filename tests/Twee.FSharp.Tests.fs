@@ -3,10 +3,12 @@ open FsharpMyExtension.Serialization.Deserializers
 open FsharpMyExtension.Serialization.Serializers
 open Expecto
 
+open Twine.Twee.FSharp.Parser
+
 [<Tests>]
-let ``PassageName.Parser.parser`` =
-    let parser = PassageName.Parser.parser
-    testList "PassageName.Parser.parser" [
+let ``Parser.PassageName.parser`` =
+    let parser = PassageName.parser
+    testList "Parser.PassageName.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
@@ -46,9 +48,9 @@ let ``PassageName.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageName.Printer.shows`` =
-    let shows = PassageName.Printer.shows
-    testList "PassageName.Printer.shows" [
+let ``Printer.PassageName.shows`` =
+    let shows = Printer.PassageName.shows
+    testList "Printer.PassageName.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (shows "Passage" |> ShowList.show)

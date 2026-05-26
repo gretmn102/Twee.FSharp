@@ -1,13 +1,5 @@
 namespace Twine.Twee.FSharp
 
-module CommonParser =
-    open FParsec
-
-    type 'a Parser = Parser<'a, unit>
-
-    let whitespaces =
-        skipManySatisfy (fun c -> c = ' ' || c = '\t' )
-
 [<RequireQualifiedAccess>]
 type NewlineType =
     | Lf
@@ -23,29 +15,11 @@ module NewlineType =
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module PassageName =
-    module Parser =
-        open FParsec
-
-        open CommonParser
-
-        let parser: string Parser =
-            manySatisfy (isNoneOf "[{\n")
-            |>> fun x -> x.TrimEnd() // optimize: remove trailing whitespaces by parser
-
-    module Printer =
-        open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        let shows (passageName: PassageName) =
-            showString passageName
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageBody =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser: PassageBody Parser =
             let pline: _ Parser =
@@ -76,7 +50,7 @@ module PassageTag =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser: PassageTag Parser =
             many1Satisfy (isNoneOf " ]") // todo: add escape \]
@@ -95,7 +69,7 @@ module PassageTags =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser: PassageTags Parser =
             between
@@ -121,7 +95,7 @@ module PassageMetadata =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser: PassageMetadata Parser =
             between
@@ -143,12 +117,13 @@ module PassageHeader =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Twine.Twee.FSharp.Parser
+        open Twine.Twee.FSharp.Parser.Common
 
         let parser: PassageHeader Parser =
             skipString "::" >>. spaces
             >>. pipe3
-                PassageName.Parser.parser
+                PassageName.parser
                 (opt (PassageTags.Parser.parser .>> whitespaces))
                 (opt PassageMetadata.Parser.parser)
                 (fun name tags metadata ->
@@ -182,7 +157,7 @@ module Passage =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser (pbody: Parser<'Body>) : Passage<'Body> Parser =
             pipe2
@@ -212,7 +187,7 @@ module Document =
     module Parser =
         open FParsec
 
-        open CommonParser
+        open Parser.Common
 
         let parser (ppassageBody: Parser<'PassageBody>) : Document<'PassageBody> Parser =
             many (Passage.Parser.parser ppassageBody .>> spaces)

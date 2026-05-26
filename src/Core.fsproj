@@ -12,6 +12,9 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Ast.fs" />
+     <Compile Include="Parser/Common.fs" />
+     <Compile Include="Parser/PassageName.fs" />
+     <Compile Include="Printer/PassageName.fs" />
      <Compile Include="Twee.FSharp.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
