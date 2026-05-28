@@ -5,17 +5,6 @@ open Twine.Twee.FSharp.Printer
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Passage =
-    module Printer =
-        open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        let shows showBody newlineType (passage: Passage<'PassageBody>) =
-            PassageHeader.shows passage.Header
-            << (showString <| NewlineType.toString newlineType)
-            << showBody newlineType passage.Body
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Document =
     open FsharpMyExtension.Serialization.Deserializers
     open FsharpMyExtension.Serialization.Serializers
@@ -56,7 +45,7 @@ module Document =
                 newline
                 << newline << newline // add two empty blanks
             document
-            |> List.map (Passage.Printer.shows showPassageBody newlineType)
+            |> List.map (Passage.shows showPassageBody newlineType)
             |> joinsEmpty newlines
 
     let toString showPassageBody newlineType (document: Document<'PassageBody>) =

@@ -27,6 +27,7 @@
      <Compile Include="Printer/PassageTags.fs" />
      <Compile Include="Printer/PassageMetadata.fs" />
      <Compile Include="Printer/PassageHeader.fs" />
+     <Compile Include="Printer/Passage.fs" />
      <Compile Include="Twee.FSharp.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />

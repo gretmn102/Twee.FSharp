@@ -250,11 +250,11 @@ let ``Passage.parser`` =
     ]
 
 [<Tests>]
-let ``Passage.Printer.shows`` =
+let ``Passage.shows`` =
     let show newlineType =
-        Passage.Printer.shows PassageBody.shows newlineType
+        Passage.shows PassageBody.shows newlineType
         >> ShowList.show
-    testList "Passage.Printer.shows" [
+    testList "Passage.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (show NewlineType.Lf {
