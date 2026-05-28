@@ -224,12 +224,12 @@ let ``PassageBody.shows`` =
     ]
 
 [<Tests>]
-let ``Passage.Parser.parser`` =
+let ``Passage.parser`` =
     let parse =
         FParsec.runResult (
-            Passage.Parser.parser PassageBody.parser
+            Passage.parser PassageBody.parser
         )
-    testList "Passage.Parser.parser" [
+    testList "Passage.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 (parse (

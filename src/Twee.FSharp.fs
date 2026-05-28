@@ -6,22 +6,6 @@ open Twine.Twee.FSharp.Printer
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Passage =
-    module Parser =
-        open FParsec
-
-        open Parser.Common
-
-        let parser (pbody: Parser<'Body>) : Passage<'Body> Parser =
-            pipe2
-                (PassageHeader.parser .>> optional skipNewline)
-                pbody
-                (fun header body ->
-                    {
-                        Header = header
-                        Body = body
-                    }
-                )
-
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
@@ -42,7 +26,7 @@ module Document =
         open Parser.Common
 
         let parser (ppassageBody: Parser<'PassageBody>) : Document<'PassageBody> Parser =
-            many (Passage.Parser.parser ppassageBody .>> spaces)
+            many (Passage.parser ppassageBody .>> spaces)
 
     let parse ppassageBody (rawTwee: string) =
         FParsec.runResult (Parser.parser ppassageBody) rawTwee
