@@ -5,15 +5,6 @@ open Twine.Twee.FSharp.Parser
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageTag =
-    module Parser =
-        open FParsec
-
-        open Parser.Common
-
-        let parser: PassageTag Parser =
-            many1Satisfy (isNoneOf " ]") // todo: add escape \]
-            |>> fun x -> x.TrimEnd() // optimize: remove trailing whitespaces by parser
-
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
@@ -33,7 +24,7 @@ module PassageTags =
             between
                 (pchar '[' >>. spaces)
                 (pchar ']')
-                (many (PassageTag.Parser.parser .>> spaces))
+                (many (PassageTag.parser .>> spaces))
             |>> Set.ofList
 
     module Printer =
