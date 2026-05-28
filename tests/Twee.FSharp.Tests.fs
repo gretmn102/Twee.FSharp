@@ -71,9 +71,9 @@ let ``PassageTags.parser`` =
     ]
 
 [<Tests>]
-let ``PassageTags.Printer.shows`` =
-    let shows = PassageTags.Printer.shows
-    testList "PassageTags.Printer.shows" [
+let ``PassageTags.shows`` =
+    let shows = PassageTags.shows
+    testList "PassageTags.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (["tag1"; "tag2"] |> Set.ofList |> shows |> ShowList.show)
