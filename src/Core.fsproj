@@ -11,7 +11,25 @@
     <NoWarn>NETSDK1138,NU1903,NU1904</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Twee.FSharp.fs" />
+     <Compile Include="Ast.fs" />
+     <Compile Include="Parser/Common.fs" />
+     <Compile Include="Parser/PassageName.fs" />
+     <Compile Include="Parser/PassageTag.fs" />
+     <Compile Include="Parser/PassageTags.fs" />
+     <Compile Include="Parser/PassageMetadata.fs" />
+     <Compile Include="Parser/PassageHeader.fs" />
+     <Compile Include="Parser/PassageBody.fs" />
+     <Compile Include="Parser/Passage.fs" />
+     <Compile Include="Parser/Document.fs" />
+     <Compile Include="Printer/NewlineType.fs" />
+     <Compile Include="Printer/PassageName.fs" />
+     <Compile Include="Printer/PassageTag.fs" />
+     <Compile Include="Printer/PassageTags.fs" />
+     <Compile Include="Printer/PassageMetadata.fs" />
+     <Compile Include="Printer/PassageHeader.fs" />
+     <Compile Include="Printer/PassageBody.fs" />
+     <Compile Include="Printer/Passage.fs" />
+     <Compile Include="Printer/Document.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

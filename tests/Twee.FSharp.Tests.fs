@@ -3,10 +3,13 @@ open FsharpMyExtension.Serialization.Deserializers
 open FsharpMyExtension.Serialization.Serializers
 open Expecto
 
+open Twine.Twee.FSharp.Parser
+open Twine.Twee.FSharp.Printer
+
 [<Tests>]
-let ``PassageName.Parser.parser`` =
-    let parser = PassageName.Parser.parser
-    testList "PassageName.Parser.parser" [
+let ``Parser.PassageName.parser`` =
+    let parser = PassageName.parser
+    testList "Parser.PassageName.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
@@ -46,9 +49,9 @@ let ``PassageName.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageName.Printer.shows`` =
-    let shows = PassageName.Printer.shows
-    testList "PassageName.Printer.shows" [
+let ``Printer.PassageName.shows`` =
+    let shows = Printer.PassageName.shows
+    testList "Printer.PassageName.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (shows "Passage" |> ShowList.show)
@@ -57,9 +60,9 @@ let ``PassageName.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``PassageTags.Parser.parser`` =
-    let parser = PassageTags.Parser.parser
-    testList "PassageTags.Parser.parser" [
+let ``PassageTags.parser`` =
+    let parser = PassageTags.parser
+    testList "PassageTags.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("[tag1   tag2]" |> FParsec.runResult parser)
@@ -68,9 +71,9 @@ let ``PassageTags.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageTags.Printer.shows`` =
-    let shows = PassageTags.Printer.shows
-    testList "PassageTags.Printer.shows" [
+let ``PassageTags.shows`` =
+    let shows = PassageTags.shows
+    testList "PassageTags.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (["tag1"; "tag2"] |> Set.ofList |> shows |> ShowList.show)
@@ -79,9 +82,9 @@ let ``PassageTags.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``PassageMetadata.Parser.parser`` =
-    let parser = PassageMetadata.Parser.parser
-    testList "PassageMetadata.Parser.parser" [
+let ``PassageMetadata.parser`` =
+    let parser = PassageMetadata.parser
+    testList "PassageMetadata.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("{\"position\":\"800,5700\",\"size\":\"100,100\"}" |> FParsec.runResult parser)
@@ -90,9 +93,9 @@ let ``PassageMetadata.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageMetadata.Printer.shows`` =
-    let shows = PassageMetadata.Printer.shows
-    testList "PassageMetadata.Printer.shows" [
+let ``PassageMetadata.shows`` =
+    let shows = PassageMetadata.shows
+    testList "PassageMetadata.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("\"position\":\"800,5700\",\"size\":\"100,100\"" |> shows |> ShowList.show)
@@ -101,9 +104,9 @@ let ``PassageMetadata.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``PassageHeader.Parser.parser`` =
-    let parser = PassageHeader.Parser.parser
-    testList "PassageHeader.Parser.parser" [
+let ``PassageHeader.parser`` =
+    let parser = PassageHeader.parser
+    testList "PassageHeader.parser" [
         testCase "name, tag" <| fun () ->
             Expect.equal
                 (String.concat " " [
@@ -134,9 +137,9 @@ let ``PassageHeader.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageHeader.Printer.shows`` =
-    let shows = PassageHeader.Printer.shows
-    testList "PassageHeader.Printer.shows" [
+let ``PassageHeader.shows`` =
+    let shows = PassageHeader.shows
+    testList "PassageHeader.shows" [
         testCase "only tags" <| fun () ->
             Expect.equal
                 ({
@@ -167,9 +170,9 @@ let ``PassageHeader.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``PassageBody.Parser.parser`` =
-    let parser = PassageBody.Parser.parser
-    testList "PassageBody.Parser.parser" [
+let ``PassageBody.parser`` =
+    let parser = PassageBody.parser
+    testList "PassageBody.parser" [
         testCase "empty blanks only" <| fun () ->
             Expect.equal
                 (FParsec.runResult parser (
@@ -200,9 +203,9 @@ let ``PassageBody.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``PassageBody.Printer.shows`` =
-    let shows = PassageBody.Printer.shows
-    testList "PassageBody.Printer.shows" [
+let ``PassageBody.shows`` =
+    let shows = PassageBody.shows
+    testList "PassageBody.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (ShowList.show <| shows NewlineType.Lf [
@@ -221,12 +224,12 @@ let ``PassageBody.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``Passage.Parser.parser`` =
+let ``Passage.parser`` =
     let parse =
         FParsec.runResult (
-            Passage.Parser.parser PassageBody.Parser.parser
+            Passage.parser PassageBody.parser
         )
-    testList "Passage.Parser.parser" [
+    testList "Passage.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 (parse (
@@ -247,11 +250,11 @@ let ``Passage.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``Passage.Printer.shows`` =
+let ``Passage.shows`` =
     let show newlineType =
-        Passage.Printer.shows PassageBody.Printer.shows newlineType
+        Passage.shows PassageBody.shows newlineType
         >> ShowList.show
-    testList "Passage.Printer.shows" [
+    testList "Passage.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (show NewlineType.Lf {
@@ -270,12 +273,12 @@ let ``Passage.Printer.shows`` =
     ]
 
 [<Tests>]
-let ``Document.Parser.parser`` =
+let ``Document.parser`` =
     let parse =
         FParsec.runResult (
-            Document.Parser.parser PassageBody.Parser.parser
+            Document.parser PassageBody.parser
         )
-    testList "Document.Parser.parser" [
+    testList "Document.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 (parse (
@@ -312,11 +315,11 @@ let ``Document.Parser.parser`` =
     ]
 
 [<Tests>]
-let ``Document.Printer.shows`` =
+let ``Document.shows`` =
     let show newlineType =
-        Document.Printer.shows PassageBody.Printer.shows newlineType
+        Document.shows PassageBody.shows newlineType
         >> ShowList.show
-    testList "Document.Printer.shows" [
+    testList "Document.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (show NewlineType.Lf [
