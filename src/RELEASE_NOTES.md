@@ -1,3 +1,9 @@
+## 0.5.0
+
+* refactor!: split main file (#22)
+* refactor!: rename project to `Twine.Twee.FSharp` (#21)
+* feat!: generalise passage body (#20)
+
 ## 0.4.0
 
 * feat(fsproj): set `AssemblyName` to `Twee.FSharp`
