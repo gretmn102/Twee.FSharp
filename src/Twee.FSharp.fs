@@ -6,34 +6,7 @@ open Twine.Twee.FSharp.Printer
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Document =
-    open FsharpMyExtension.Serialization.Deserializers
     open FsharpMyExtension.Serialization.Serializers
-
-    module Parser =
-        open FParsec
-
-        open Parser.Common
-
-        let parser (ppassageBody: Parser<'PassageBody>) : Document<'PassageBody> Parser =
-            many (Passage.parser ppassageBody .>> spaces)
-
-    let parse ppassageBody (rawTwee: string) =
-        FParsec.runResult (Parser.parser ppassageBody) rawTwee
-
-    let rawParse =
-        parse PassageBody.parser
-
-    let parseFile ppassageBody (rawTwee: string) =
-        FParsec.CharParsers.runParserOnFile
-            (Parser.parser ppassageBody)
-            ()
-            rawTwee
-            System.Text.Encoding.UTF8
-        |> FParsec.ParserResult.toResult
-        |> Result.map (fun (result, _, _) -> result)
-
-    let rawParseFile =
-        parseFile PassageBody.parser
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
