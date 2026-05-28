@@ -30,7 +30,6 @@
      <Compile Include="Printer/PassageHeader.fs" />
      <Compile Include="Printer/Passage.fs" />
      <Compile Include="Printer/Document.fs" />
-     <Compile Include="Twee.FSharp.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
