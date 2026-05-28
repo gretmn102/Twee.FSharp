@@ -5,17 +5,6 @@ open Twine.Twee.FSharp.Printer
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module PassageMetadata =
-    module Printer =
-        open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        let shows (metadata: PassageMetadata) : ShowS =
-            between (showChar '{') (showChar '}') (
-                showString metadata
-            )
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageHeader =
     module Parser =
         open FParsec
@@ -50,7 +39,7 @@ module PassageHeader =
                 |> Option.defaultValue empty)
             << (header.Metadata
                 |> Option.map (fun metadata ->
-                    showSpace << PassageMetadata.Printer.shows metadata
+                    showSpace << PassageMetadata.shows metadata
                 )
                 |> Option.defaultValue empty)
 

@@ -93,9 +93,9 @@ let ``PassageMetadata.parser`` =
     ]
 
 [<Tests>]
-let ``PassageMetadata.Printer.shows`` =
-    let shows = PassageMetadata.Printer.shows
-    testList "PassageMetadata.Printer.shows" [
+let ``PassageMetadata.shows`` =
+    let shows = PassageMetadata.shows
+    testList "PassageMetadata.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("\"position\":\"800,5700\",\"size\":\"100,100\"" |> shows |> ShowList.show)
