@@ -16,6 +16,7 @@
      <Compile Include="Parser/PassageName.fs" />
      <Compile Include="Parser/PassageBody.fs" />
      <Compile Include="Parser/PassageTag.fs" />
+     <Compile Include="Parser/PassageTags.fs" />
      <Compile Include="Printer/NewlineType.fs" />
      <Compile Include="Printer/PassageName.fs" />
      <Compile Include="Printer/PassageBody.fs" />

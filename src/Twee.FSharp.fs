@@ -6,18 +6,6 @@ open Twine.Twee.FSharp.Printer
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageTags =
-    module Parser =
-        open FParsec
-
-        open Parser.Common
-
-        let parser: PassageTags Parser =
-            between
-                (pchar '[' >>. spaces)
-                (pchar ']')
-                (many (PassageTag.parser .>> spaces))
-            |>> Set.ofList
-
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
@@ -64,7 +52,7 @@ module PassageHeader =
             skipString "::" >>. spaces
             >>. pipe3
                 PassageName.parser
-                (opt (PassageTags.Parser.parser .>> whitespaces))
+                (opt (PassageTags.parser .>> whitespaces))
                 (opt PassageMetadata.Parser.parser)
                 (fun name tags metadata ->
                     {

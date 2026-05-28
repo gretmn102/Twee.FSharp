@@ -60,9 +60,9 @@ let ``Printer.PassageName.shows`` =
     ]
 
 [<Tests>]
-let ``PassageTags.Parser.parser`` =
-    let parser = PassageTags.Parser.parser
-    testList "PassageTags.Parser.parser" [
+let ``PassageTags.parser`` =
+    let parser = PassageTags.parser
+    testList "PassageTags.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("[tag1   tag2]" |> FParsec.runResult parser)
