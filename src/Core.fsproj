@@ -17,6 +17,7 @@
      <Compile Include="Parser/PassageBody.fs" />
      <Compile Include="Printer/NewlineType.fs" />
      <Compile Include="Printer/PassageName.fs" />
+     <Compile Include="Printer/PassageBody.fs" />
      <Compile Include="Twee.FSharp.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />

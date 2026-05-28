@@ -203,9 +203,9 @@ let ``PassageBody.parser`` =
     ]
 
 [<Tests>]
-let ``PassageBody.Printer.shows`` =
-    let shows = PassageBody.Printer.shows
-    testList "PassageBody.Printer.shows" [
+let ``PassageBody.shows`` =
+    let shows = PassageBody.shows
+    testList "PassageBody.shows" [
         testCase "1" <| fun () ->
             Expect.equal
                 (ShowList.show <| shows NewlineType.Lf [
@@ -252,7 +252,7 @@ let ``Passage.Parser.parser`` =
 [<Tests>]
 let ``Passage.Printer.shows`` =
     let show newlineType =
-        Passage.Printer.shows PassageBody.Printer.shows newlineType
+        Passage.Printer.shows PassageBody.shows newlineType
         >> ShowList.show
     testList "Passage.Printer.shows" [
         testCase "1" <| fun () ->
@@ -317,7 +317,7 @@ let ``Document.Parser.parser`` =
 [<Tests>]
 let ``Document.Printer.shows`` =
     let show newlineType =
-        Document.Printer.shows PassageBody.Printer.shows newlineType
+        Document.Printer.shows PassageBody.shows newlineType
         >> ShowList.show
     testList "Document.Printer.shows" [
         testCase "1" <| fun () ->

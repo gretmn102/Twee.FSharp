@@ -4,21 +4,6 @@ open Twine.Twee.FSharp.Parser
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module PassageBody =
-    module Printer =
-        open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        open Twine.Twee.FSharp.Printer
-
-        let shows newlineType (passageBody: PassageBody) =
-            let newline =
-                showString <| NewlineType.toString newlineType
-            passageBody
-            |> List.map showString
-            |> joinsEmpty newline
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageTag =
     module Parser =
         open FParsec
