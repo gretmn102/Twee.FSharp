@@ -137,9 +137,9 @@ let ``PassageHeader.parser`` =
     ]
 
 [<Tests>]
-let ``PassageHeader.Printer.shows`` =
-    let shows = PassageHeader.Printer.shows
-    testList "PassageHeader.Printer.shows" [
+let ``PassageHeader.shows`` =
+    let shows = PassageHeader.shows
+    testList "PassageHeader.shows" [
         testCase "only tags" <| fun () ->
             Expect.equal
                 ({
