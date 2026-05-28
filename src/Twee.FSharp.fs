@@ -1,16 +1,7 @@
 namespace Twine.Twee.FSharp
 
 open Twine.Twee.FSharp.Parser
-
-[<RequireQualifiedAccess>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module PassageTag =
-    module Printer =
-        open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        let shows (tag: PassageTag) : ShowS =
-            tag.Trim()
-            |> showString // todo: add escape \]
+open Twine.Twee.FSharp.Printer
 
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -33,7 +24,7 @@ module PassageTags =
         let shows (tags: PassageTags) : ShowS =
             between (showChar '[') (showChar ']') (
                 tags
-                |> Seq.map PassageTag.Printer.shows
+                |> Seq.map PassageTag.shows
                 |> List.ofSeq
                 |> joinsEmpty showSpace
             )
@@ -122,8 +113,6 @@ module Passage =
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
-        open Twine.Twee.FSharp.Printer
-
         let shows showBody newlineType (passage: Passage<'PassageBody>) =
             PassageHeader.Printer.shows passage.Header
             << (showString <| NewlineType.toString newlineType)
@@ -163,8 +152,6 @@ module Document =
 
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
-
-        open Twine.Twee.FSharp.Printer
 
         let shows showPassageBody newlineType (document: Document<'PassageBody>) =
             let newline =
