@@ -2,8 +2,6 @@ namespace Twine.Twee.FSharp
 
 type PassageName = string
 
-type PassageBody = string list
-
 type PassageTag = string
 
 type PassageTags = PassageTag Set
@@ -16,6 +14,8 @@ type PassageHeader =
         Tags: PassageTags option
         Metadata: PassageMetadata option
     }
+
+type PassageBody = string list
 
 type Passage<'Body> = {
     Header: PassageHeader

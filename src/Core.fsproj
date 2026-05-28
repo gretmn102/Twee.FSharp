@@ -14,20 +14,20 @@
      <Compile Include="Ast.fs" />
      <Compile Include="Parser/Common.fs" />
      <Compile Include="Parser/PassageName.fs" />
-     <Compile Include="Parser/PassageBody.fs" />
      <Compile Include="Parser/PassageTag.fs" />
      <Compile Include="Parser/PassageTags.fs" />
      <Compile Include="Parser/PassageMetadata.fs" />
      <Compile Include="Parser/PassageHeader.fs" />
+     <Compile Include="Parser/PassageBody.fs" />
      <Compile Include="Parser/Passage.fs" />
      <Compile Include="Parser/Document.fs" />
      <Compile Include="Printer/NewlineType.fs" />
      <Compile Include="Printer/PassageName.fs" />
-     <Compile Include="Printer/PassageBody.fs" />
      <Compile Include="Printer/PassageTag.fs" />
      <Compile Include="Printer/PassageTags.fs" />
      <Compile Include="Printer/PassageMetadata.fs" />
      <Compile Include="Printer/PassageHeader.fs" />
+     <Compile Include="Printer/PassageBody.fs" />
      <Compile Include="Printer/Passage.fs" />
      <Compile Include="Printer/Document.fs" />
   </ItemGroup>
