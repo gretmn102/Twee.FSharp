@@ -82,9 +82,9 @@ let ``PassageTags.shows`` =
     ]
 
 [<Tests>]
-let ``PassageMetadata.Parser.parser`` =
-    let parser = PassageMetadata.Parser.parser
-    testList "PassageMetadata.Parser.parser" [
+let ``PassageMetadata.parser`` =
+    let parser = PassageMetadata.parser
+    testList "PassageMetadata.parser" [
         testCase "1" <| fun () ->
             Expect.equal
                 ("{\"position\":\"800,5700\",\"size\":\"100,100\"}" |> FParsec.runResult parser)
