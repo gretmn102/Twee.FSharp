@@ -6,26 +6,6 @@ open Twine.Twee.FSharp.Printer
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module PassageHeader =
-    module Parser =
-        open FParsec
-
-        open Twine.Twee.FSharp.Parser
-        open Twine.Twee.FSharp.Parser.Common
-
-        let parser: PassageHeader Parser =
-            skipString "::" >>. spaces
-            >>. pipe3
-                PassageName.parser
-                (opt (PassageTags.parser .>> whitespaces))
-                (opt PassageMetadata.parser)
-                (fun name tags metadata ->
-                    {
-                        Name = name
-                        Tags = tags
-                        Metadata = metadata
-                    }
-                )
-
     module Printer =
         open FsharpMyExtension.Serialization.Serializers.ShowList
 
@@ -53,7 +33,7 @@ module Passage =
 
         let parser (pbody: Parser<'Body>) : Passage<'Body> Parser =
             pipe2
-                (PassageHeader.Parser.parser .>> optional skipNewline)
+                (PassageHeader.parser .>> optional skipNewline)
                 pbody
                 (fun header body ->
                     {

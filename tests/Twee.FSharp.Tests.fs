@@ -104,9 +104,9 @@ let ``PassageMetadata.shows`` =
     ]
 
 [<Tests>]
-let ``PassageHeader.Parser.parser`` =
-    let parser = PassageHeader.Parser.parser
-    testList "PassageHeader.Parser.parser" [
+let ``PassageHeader.parser`` =
+    let parser = PassageHeader.parser
+    testList "PassageHeader.parser" [
         testCase "name, tag" <| fun () ->
             Expect.equal
                 (String.concat " " [
